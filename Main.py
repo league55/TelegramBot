@@ -39,11 +39,6 @@ greetings = ('hello', 'hi', 'greetings', 'sup')
 now = datetime.datetime.now()
 
 
-greet_bot = BotHandler(token)
-greetings = ('hello', 'hi', 'greetings', 'sup')
-now = datetime.datetime.now()
-
-
 def main():
     new_offset = None
     today = now.day
