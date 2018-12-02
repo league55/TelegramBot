@@ -4,7 +4,7 @@ import os
 import telegram
 from flask import Flask, request
 
-from src.dispatcher import command_to_action
+from src.dispatcher import react_to_message
 
 app = Flask(__name__)
 
@@ -13,7 +13,6 @@ if __name__ == "__main__":
 
 TOKEN = os.environ['BOT_TOKEN']
 
-global bot
 bot = telegram.Bot(token=TOKEN)
 
 store = {}
@@ -31,10 +30,8 @@ def webhook_handler():
     if request.method == "POST":
         # retrieve the message in JSON and then transform it to Telegram object
         print(request.get_json())
-        update = telegram.Update.de_json(request.get_json(force=True), bot)
 
-        action = command_to_action(update)
-        action(update)
+        react_to_message(bot, request.get_json(force=True))
 
     return 'ok'
 

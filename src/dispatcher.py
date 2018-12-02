@@ -1,20 +1,16 @@
 from src.google_outh import get_auth_url
-from run import bot
 
 import re
 
+import telegram
 from storage import add_email
 
 pattern = re.compile(".+\@.+\..+")
 
-def echo(update):
-    chat_id = update.message.chat.id
-    text = update.message.text
 
-    bot.sendMessage(chat_id=chat_id, text=text)
+def react_to_message(bot, json):
+    update = telegram.Update.de_json(json, bot)
 
-
-def command_to_action(update):
     text = update.message.text
     chat_id = update.message.chat.id
 
@@ -26,4 +22,3 @@ def command_to_action(update):
     else:
         bot.sendMessage(chat_id=chat_id, text="Please enter valid google email address")
 
-    return echo
