@@ -4,6 +4,8 @@ import os
 import telegram
 from flask import Flask, request
 
+from dispatcher import command_to_action
+
 app = Flask(__name__)
 
 if __name__ == "__main__":
@@ -14,16 +16,15 @@ TOKEN = os.environ['BOT_TOKEN']
 global bot
 bot = telegram.Bot(token=TOKEN)
 
-def echo(update):
-    chat_id = update.message.chat.id
-    text = update.message.text
+store = {}
 
-    bot.sendMessage(chat_id=chat_id, text=text)
+@app.route('/oauth/<auth_code>', methods=['GET'])
+def webhook_handler(auth_code):
+    if request.method == "GET":
+        # retrieve the message in JSON and then transform it to Telegram object
+        print(auth_code)
 
-
-def command_to_action(update):
-    return echo
-
+    return 'ok'
 
 @app.route('/hook', methods=['POST'])
 def webhook_handler():
