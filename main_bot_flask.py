@@ -1,16 +1,15 @@
 #!/usr/bin/env python
+import os
 
 import telegram
 from flask import Flask, request
-
-from secret.config import TOKEN
 
 if __name__ == "__main__":
     app = Flask(__name__)
     app.run()
 
 global bot
-bot = telegram.Bot(token=TOKEN)
+bot = telegram.Bot(token=os.environ['BOT_TOKEN'])
 
 def echo(update):
     chat_id = update.message.chat.id
