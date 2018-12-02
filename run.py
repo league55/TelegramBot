@@ -16,7 +16,7 @@ bot = telegram.Bot(token=TOKEN)
 
 def echo(update):
     chat_id = update.message.chat.id
-    text = update.message.text.encode('utf-8')
+    text = update.message.text
 
     bot.sendMessage(chat_id=chat_id, text=text)
 
