@@ -4,8 +4,9 @@ import os
 import telegram
 from flask import Flask, request
 
+app = Flask(__name__)
+
 if __name__ == "__main__":
-    app = Flask(__name__)
     app.run()
 
 global bot
@@ -20,7 +21,6 @@ def echo(update):
 
 def command_to_action(update):
     return echo
-
 
 
 @app.route('/hook', methods=['POST'])
