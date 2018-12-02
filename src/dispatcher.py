@@ -3,7 +3,7 @@ from src.google_outh import get_auth_url
 import re
 
 import telegram
-from storage import add_email
+from src.storage import add_email
 
 pattern = re.compile(".+\@.+\..+")
 
