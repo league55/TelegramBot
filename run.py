@@ -11,14 +11,14 @@ app = Flask(__name__)
 if __name__ == "__main__":
     app.run(debug=True)
 
-TOKEN = os.environ['BOT_TOKEN']
+TOKEN = "555204475:AAG1RrFFPbC0IiWOUglWKnfZtgvbLWspB5s"
 
 bot = telegram.Bot(token=TOKEN)
 
 store = {}
 
 @app.route('/oauth/<auth_code>', methods=['GET'])
-def webhook_handler(auth_code):
+def auth(auth_code):
     if request.method == "GET":
         # retrieve the message in JSON and then transform it to Telegram object
         print(auth_code)
