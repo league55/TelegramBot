@@ -24,7 +24,7 @@ def command_to_action(update):
 
 
 
-@app.route('/HOOK', methods=['POST'])
+@app.route('/hook', methods=['POST'])
 def webhook_handler():
     if request.method == "POST":
         # retrieve the message in JSON and then transform it to Telegram object
@@ -38,7 +38,7 @@ def webhook_handler():
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
-    s = bot.setWebhook('https://localhost:5000/HOOK')
+    s = bot.setWebhook('telegramdrivebot.herokuapp.com/hook')
     if s:
         return "webhook setup ok"
     else:

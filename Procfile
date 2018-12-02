@@ -1,1 +1,1 @@
-web: python Main.py
+web: python main_bot_flask.py
