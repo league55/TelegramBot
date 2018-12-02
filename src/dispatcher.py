@@ -1,4 +1,4 @@
-from google_outh import get_auth_url
+from src.google_outh import get_auth_url
 from run import bot
 
 import re

@@ -4,7 +4,7 @@ import os
 import telegram
 from flask import Flask, request
 
-from dispatcher import command_to_action
+from src.dispatcher import command_to_action
 
 app = Flask(__name__)
 
