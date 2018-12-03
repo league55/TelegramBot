@@ -11,7 +11,7 @@ app = Flask(__name__)
 if __name__ == "__main__":
     app.run(debug=True)
 
-TOKEN = "555204475:AAG1RrFFPbC0IiWOUglWKnfZtgvbLWspB5s"
+TOKEN = os.environ['BOT_TOKEN']
 
 bot = telegram.Bot(token=TOKEN)
 
