@@ -27,7 +27,7 @@ CLIENT_CONFIG = {
 
 
 def get_auth_url():
-    flow = get_oauth_flow()
+    flow = get_oauth_flow(None)
     flow.redirect_uri = 'https://telegramdrivebot.herokuapp.com/oauth'
 
     authorization_url, state = flow.authorization_url(
