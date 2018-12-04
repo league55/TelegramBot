@@ -9,7 +9,7 @@ db = client.telegrambot
 users = db.users
 
 def add_user(user):
-    return users.insert_one(user).inserted_iddef
+    return users.insert_one(user)
 
 def get_user_by_field(field, value):
     return users.find_one({ field: value})
