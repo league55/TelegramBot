@@ -25,9 +25,9 @@ store = {}
 def auth():
     app.logger.info("====")
     print("-----")
-    app.logger.info(session.items())
-    app.logger.info(request.get_json())
-    app.logger.info(request.get_data())
+    print(session.items())
+    print(request.get_json())
+    print(request.get_data())
     return "ok"
     # state = session.['state']
     # flow = get_oauth_flow(state)
