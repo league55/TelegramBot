@@ -1,6 +1,10 @@
+import logging
 import os
 
+import httplib2
 import google_auth_oauthlib.flow
+from googleapiclient import errors
+from googleapiclient.discovery import build
 
 CLIENT_CONFIG = {
     "web": {
@@ -21,10 +25,9 @@ CLIENT_CONFIG = {
     }
 }
 
+
 def get_auth_url():
-    flow = google_auth_oauthlib.flow.Flow.from_client_config(
-        CLIENT_CONFIG,
-        scopes=['https://www.googleapis.com/auth/drive'])
+    flow = get_oauth_flow()
     flow.redirect_uri = 'https://telegramdrivebot.herokuapp.com/oauth'
 
     authorization_url, state = flow.authorization_url(
@@ -32,3 +35,27 @@ def get_auth_url():
         include_granted_scopes='true')
 
     return authorization_url
+
+
+def get_oauth_flow(state):
+    flow = google_auth_oauthlib.flow.Flow.from_client_config(
+        CLIENT_CONFIG,
+        scopes=['https://www.googleapis.com/auth/drive', "https://www.googleapis.com/auth/userinfo.email"],
+        state=state)
+    return flow
+
+
+def get_user_info(credentials):
+    user_info_service = build(
+    serviceName='oauth2', version='v2',
+    http=credentials.authorize(httplib2.Http()))
+
+    user_info = None
+    try:
+        user_info = user_info_service.userinfo().get().execute()
+    except errors.HttpError as e:
+        logging.error('An error occurred: %s', e)
+    if user_info and user_info.get('id'):
+        return user_info
+    else:
+        raise Exception()
