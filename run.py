@@ -8,7 +8,7 @@ from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.file import Storage
 
 from src.dispatcher import react_to_message
-from src.google_outh import get_oauth_flow, get_user_info
+from src.google_outh import get_oauth_flow, get_user_info, get_oauth_flow_2
 from src.storage import get_chat_for_email
 
 
@@ -36,7 +36,8 @@ def oauth2callback():
     flow.fetch_token(authorization_response=authorization_response)
     #credentials = flow.credentials
 
-    credentials = oauth2client.client.credentials_from_code(request.args["code"])
+    flow2 = get_oauth_flow_2()
+    credentials = flow2.step2_exchange(request.args["code"])
 
     print(credentials)
     usr_info = get_user_info(credentials)

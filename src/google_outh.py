@@ -5,6 +5,7 @@ import httplib2
 import google_auth_oauthlib.flow
 from googleapiclient import errors
 from googleapiclient.discovery import build
+from oauth2client.client import OAuth2WebServerFlow
 
 CLIENT_CONFIG = {
     "web": {
@@ -48,7 +49,11 @@ def get_oauth_flow(state):
         state=state)
     return flow
 
-
+def get_oauth_flow_2():
+    return OAuth2WebServerFlow(client_id=os.environ['client_id'],
+                                client_secret=os.environ['client_secret'],
+                                scope='https://www.googleapis.com/auth/plus.me',
+                                redirect_uri='https://telegramdrivebot.herokuapp.com/oauth')
 def get_user_info(credentials):
     user_info_service = build(
     serviceName='oauth2', version='v2',
