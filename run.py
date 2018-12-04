@@ -23,33 +23,27 @@ store = {}
 
 @app.route('/oauth', methods=['GET'])
 def auth():
-    app.logger.info("====")
-    print("-----")
-    print(session.items())
-    print(request.get_json())
-    print(request.get_data())
-    print(request.args)
-    return "ok"
-    # state = session.['state']
-    # flow = get_oauth_flow(state)
-    #
-    # flow.redirect_uri = url_for('oauth2callback', _external=True)
-    #
-    # authorization_response = request.url
-    # flow.fetch_token(authorization_response=authorization_response)
-    # credentials = flow.credentials
-    #
-    # usr_info = get_user_info(credentials)
-    # print(usr_info)
-    # email = usr_info.get("email")
-    # chat_id = get_chat_for_email(email)
-    #
-    # if chat_id:
-    #     storage = Storage('stores/' + email)
-    #     storage.put(credentials)
-    #     bot.sendMessage(chat_id=chat_id, text="Granted access to Goodle Drive success. Now send me some docs")
-    #
-    # return 'ok'
+    state = request.args.get("state")
+    flow = get_oauth_flow(state)
+
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
+
+    authorization_response = request.url
+    flow.fetch_token(authorization_response=authorization_response)
+    credentials = flow.credentials
+
+    print(credentials)
+    usr_info = get_user_info(credentials)
+    print(usr_info)
+    email = usr_info.get("email")
+    chat_id = get_chat_for_email(email)
+
+    if chat_id:
+        storage = Storage('stores/' + email)
+        storage.put(credentials)
+        bot.sendMessage(chat_id=chat_id, text="Granted access to Goodle Drive success. Now send me some docs")
+
+    return 'ok'
 
 @app.route('/hook', methods=['POST'])
 def webhook_handler():
