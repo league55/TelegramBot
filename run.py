@@ -30,7 +30,9 @@ def oauth2callback():
 
     authorization_response = request.url
     flow.fetch_token(authorization_response=authorization_response)
-    credentials = flow.credentials
+    #credentials = flow.credentials
+
+    credentials = flow.step2_exchange(request.args["code"])
 
     print(credentials)
     usr_info = get_user_info(credentials)
