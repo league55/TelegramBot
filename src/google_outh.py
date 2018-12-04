@@ -40,7 +40,11 @@ def get_auth_url():
 def get_oauth_flow(state):
     flow = google_auth_oauthlib.flow.Flow.from_client_config(
         CLIENT_CONFIG,
-        scopes=['https://www.googleapis.com/auth/drive', "https://www.googleapis.com/auth/userinfo.email"],
+        scopes=[
+            'https://www.googleapis.com/auth/drive',
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/plus.me"
+        ],
         state=state)
     return flow
 
