@@ -1,21 +1,17 @@
 #!/usr/bin/env python
 import os
 
-import oauth2client
 import telegram
-from flask import Flask, request, url_for
-from oauth2client.client import OAuth2WebServerFlow
-from oauth2client.file import Storage
+from flask import request, url_for
 
+from src import app
 from src.dispatcher import react_to_message
 from src.google_outh import get_oauth_flow, get_user_info, get_oauth_flow_2
-from src.storage import get_chat_for_email
-
-
-app = Flask(__name__)
+from src.storage import get_user_by_field, set_user_credentials
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 TOKEN = os.environ['BOT_TOKEN']
 
@@ -34,7 +30,6 @@ def oauth2callback():
 
     authorization_response = request.url
     flow.fetch_token(authorization_response=authorization_response)
-    #credentials = flow.credentials
 
     flow2 = get_oauth_flow_2()
     credentials = flow2.step2_exchange(request.args["code"])
@@ -43,11 +38,10 @@ def oauth2callback():
     usr_info = get_user_info(credentials)
     print(usr_info)
     email = usr_info.get("email")
-    chat_id = get_chat_for_email(email)
+    chat_id = get_user_by_field("email", email)
 
     if chat_id:
-        storage = Storage('stores/' + email)
-        storage.put(credentials)
+        set_user_credentials(email, credentials.to_json())
         bot.sendMessage(chat_id=chat_id, text="Granted access to Goodle Drive success. Now send me some docs")
 
     return 'ok'
@@ -62,13 +56,11 @@ def webhook_handler():
     return 'ok'
 
 
-@app.route('/set_webhook', methods=['GET', 'POST'])
-def set_webhook():
-    s = bot.setWebhook('telegramdrivebot.herokuapp.com/hook')
-    if s:
-        return "webhook setup ok"
-    else:
-        return "webhook setup failed"
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    email = request.args.get("email")
+    if email:
+        return get_user_by_field("email", email)
 
 
 @app.route('/')

@@ -3,7 +3,7 @@ from src.google_outh import get_auth_url
 import re
 
 import telegram
-from .storage import add_email
+from .storage import add_user
 
 pattern = re.compile(".+\@.+\..+")
 
@@ -15,7 +15,7 @@ def react_to_message(bot, json):
     chat_id = update.message.chat.id
 
     if pattern.match(text):
-        add_email(chat_id, text)
+        add_user({"chat_id": chat_id, "email": text})
 
         url = get_auth_url()
         bot.sendMessage(chat_id=chat_id, text=url)

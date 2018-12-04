@@ -1,13 +1,21 @@
-chat_email = {}
+import pymongo
+from pymongo import MongoClient
 
-def add_email(chat_id, email):
-    chat_email[chat_id] = email
+from src import MONGO_URL
 
-def get_email_for_chat(chat_id):
-    return chat_email[chat_email]
+client = MongoClient(MONGO_URL)
 
-def get_chat_for_email(cur_email):
-    for chat, email in chat_email:
-        print(email)
-        if email == cur_email:
-            return chat
+db = client.telegrambot
+users = db.users
+
+def add_user(user):
+    return users.insert_one(user).inserted_iddef
+
+def get_user_by_field(field, value):
+    return users.find_one({ field: value})
+
+def set_user_credentials(email, credentials):
+    users.update(
+        {"email": email},
+        credentials
+    )
