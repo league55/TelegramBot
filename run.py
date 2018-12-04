@@ -2,7 +2,7 @@
 import os
 
 import telegram
-from flask import Flask, request, session, url_for
+from flask import Flask, request, url_for
 from oauth2client.file import Storage
 
 from src.dispatcher import react_to_message
@@ -22,7 +22,7 @@ bot = telegram.Bot(token=TOKEN)
 store = {}
 
 @app.route('/oauth', methods=['GET'])
-def auth():
+def oauth2callback():
     state = request.args.get("state")
     flow = get_oauth_flow(state)
 
