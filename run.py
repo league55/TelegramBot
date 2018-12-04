@@ -28,6 +28,7 @@ def auth():
     print(session.items())
     print(request.get_json())
     print(request.get_data())
+    print(request.args)
     return "ok"
     # state = session.['state']
     # flow = get_oauth_flow(state)
