@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 import os
 
+import oauth2client
 import telegram
 from flask import Flask, request, url_for
+from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.file import Storage
 
 from src.dispatcher import react_to_message
@@ -21,6 +23,8 @@ bot = telegram.Bot(token=TOKEN)
 
 store = {}
 
+
+
 @app.route('/oauth', methods=['GET'])
 def oauth2callback():
     state = request.args.get("state")
@@ -32,7 +36,7 @@ def oauth2callback():
     flow.fetch_token(authorization_response=authorization_response)
     #credentials = flow.credentials
 
-    credentials = flow.step2_exchange(request.args["code"])
+    credentials = oauth2client.client.credentials_from_code(request.args["code"])
 
     print(credentials)
     usr_info = get_user_info(credentials)
